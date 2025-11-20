@@ -21,6 +21,7 @@ final class CartTest extends TestCase
         return $lastDay->setTime(12, 0);
     }
 
+    
     public function test_add_and_total_without_discount(): void
     {
         $cart = new Cart(new DiscountService());
@@ -31,7 +32,7 @@ final class CartTest extends TestCase
         $now = new DateTimeImmutable('2025-03-10 12:00:00 Europe/Paris');
         $this->assertSame(6356, $cart->totalCents($now));
     }
-
+    
     public function test_black_friday_discount_then_vat(): void
     {
         $cart = new Cart(new DiscountService());

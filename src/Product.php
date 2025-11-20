@@ -5,20 +5,22 @@ namespace App;
 
 final class Product
 {
-    private string $id;
-    private ?string $name = null;
-    private int $priceCents = 0;
-
-    public function __construct(string $id, string $name, int|float $priceCents)
+    public function __construct(private string $id, private ?string $name = null, private int|float $priceCents = 0)
     {
-        $this->id = $id;
-        $this->name = $name;
+        if ($id === '') {
+            throw new \InvalidArgumentException("id can't be null");
+        }
+
+        if ($this->priceCents <= 0) {
+            throw new \InvalidArgumentException("priceCents must be greater than 0");
+        }
+
         $this->priceCents = (int)$priceCents;
     }
 
-    public function getPriceCents(): float
+    public function getPriceCents(): int
     {
-        return $this->priceCents / 100;
+        return $this->priceCents;
     }
 
     public function setName(string $name): string
@@ -29,7 +31,7 @@ final class Product
 
     public function equals(Product $other): bool
     {
-        return $this->id = $other->id;
+        return $this->id === $other->id;
     }
 
     public function getId(): string
